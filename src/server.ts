@@ -27,7 +27,7 @@ const options = {
 
   const specs = swaggerJsdoc(options);
 // Configurar a rota para a documentação do Swagger
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(specs));
 AppDataSource.initialize().then(async ()=>[
     console.log("DataBase : OK"),
     app.listen(3333,()=>{

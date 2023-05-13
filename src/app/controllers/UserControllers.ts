@@ -6,7 +6,7 @@ const userRouter = Router();
 
 /**
  * @swagger
- * /users:
+ * /api/users:
  *   get:
  *     summary: Get all users
  *     responses:
@@ -19,7 +19,7 @@ const userRouter = Router();
  *               items:
  *                 $ref: '#/components/schemas/User'
  */
-userRouter.get('/', async ( _req:Request, res:Response): Promise<Response>=>{
+userRouter.get('/users', async ( _req:Request, res:Response): Promise<Response>=>{
     console.log('INICIANDO GET ALL');
     const users = await UserRepositorie.getUsers();
     return res.status(200).json(users);
@@ -27,7 +27,7 @@ userRouter.get('/', async ( _req:Request, res:Response): Promise<Response>=>{
 
 /**
  * @swagger
- * /users/by:
+ * /api/users/by:
  *   get:
  *     summary: Get user by param
  *     parameters:  
@@ -45,7 +45,7 @@ userRouter.get('/', async ( _req:Request, res:Response): Promise<Response>=>{
  *             schema:
  *                 $ref: '#/components/schemas/User'
  */
-userRouter.get('/by', async (request:Request, response:Response): Promise<Response>=>{
+userRouter.get('/users/by', async (request:Request, response:Response): Promise<Response>=>{
     console.log('Iniciando Get com Parametros');
 
     const {param} = request.query
@@ -58,7 +58,7 @@ userRouter.get('/by', async (request:Request, response:Response): Promise<Respon
 
 /**
  * @swagger
- * /users:
+ * /api/users:
  *   post:
  *     summary: Create a new user
  *     requestBody:
@@ -79,7 +79,7 @@ userRouter.get('/by', async (request:Request, response:Response): Promise<Respon
  *       '500':
  *         description: Internal server error
  */
-userRouter.post('/',async  ( request:Request, response:Response): Promise<Response>=>{
+userRouter.post('/users',async  ( request:Request, response:Response): Promise<Response>=>{
     const {  name, email, password } = request.body;
     console.log("NOME: ", name);
     const result = await UserRepositorie.postUser({ name, email, password })
