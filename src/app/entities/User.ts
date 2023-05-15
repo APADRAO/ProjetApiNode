@@ -25,7 +25,7 @@ export class User {
 
     @Column('varchar', {length:100})
     name:string;
-    @Column('varchar', {length:200})
+    @Column('varchar', {length:200, unique:true})
     email:string;
     @Column('varchar', {length:4000, nullable:true})
     password:string;

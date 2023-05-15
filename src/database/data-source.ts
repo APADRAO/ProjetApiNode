@@ -15,3 +15,4 @@ export const AppDataSource = new DataSource({
     migrations: [CreateUserTable1683899146103],
     subscribers: [],
 })
+

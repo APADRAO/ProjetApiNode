@@ -1,4 +1,5 @@
-import {User} from "../entities/User";
+import { User } from './../entities/User';
+//import {User} from "../entities/User";
 import { IUser } from "../interfaces/IUser";
 import { AppDataSource } from "../../database/data-source";
 import { decrypt } from "sjcl";
@@ -13,12 +14,13 @@ type UsuarioRequest = {
 
 const userRepository = AppDataSource.getRepository(User);
 
-const getUsers = async (): Promise<IUser[]> =>{
-    var users = await userRepository.find();
-    var ret:User[] = [];
-    users.forEach(async element => {
-        var e = element;
-        var pass = await decryptando(e.password);
+const getUsers = async (): Promise<User[]> =>{
+    const users = await userRepository.find();
+    
+    const  ret:User[] = [];
+    users.forEach( element => {
+        const  e:User = element;
+        var pass = decryptando(e.password);
         e.password = pass;
         ret.push(e);
     });
@@ -61,7 +63,7 @@ const postUser = async ({name, email, password}: UsuarioRequest ): Promise<IUser
     if(await userRepository.findOne({ where: { name }})){
         return new Error("Categoria ja existe");
     }
-    password = await encryptando(password);
+    password = encryptando(password);
     var user = userRepository.create({
        name,
         email,
