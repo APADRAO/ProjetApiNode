@@ -27,6 +27,26 @@ export class User {
     name:string;
     @Column('varchar', {length:200})
     email:string;
-    @Column('varchar', {length:200, nullable:true})
+    @Column('varchar', {length:4000, nullable:true})
+    password:string;
+}
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Login:
+ *       type: object
+ *       properties:
+ *         email:
+ *           type: string
+ *         password:
+ *           type: string
+ */
+@Entity('Login')
+export class Login {
+    @Column('varchar', {length:200})
+    email:string;
+    @Column('varchar', {length:4000, nullable:true})
     password:string;
 }
