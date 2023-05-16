@@ -1,6 +1,3 @@
-import { IsNull } from 'typeorm';
-import { IReturn } from './../interfaces/IReturn';
-import { ILogin } from './../interfaces/ILogin';
 import { Request, Response, Router, request, response } from "express";
 import UserRepositorie  from '../repositories/UserRepositorie';
 import jwt from "jsonwebtoken";
