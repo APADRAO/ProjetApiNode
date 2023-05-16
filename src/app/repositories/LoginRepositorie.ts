@@ -19,11 +19,16 @@ const login = async (email:string, password:string): Promise<boolean> => {
     
 
     if(users){
-        if(await decryptando(users.password)==password){
+        console.log(email)
+        console.log(password)
+        
+        console.log(decryptando(users.password))
+        if(decryptando(users.password)==password){
             return true
         }
         return false;
     }else{
+        console.log(password)
         return false;
     }
     
