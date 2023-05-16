@@ -6,6 +6,7 @@ import UserRepositorie  from '../repositories/UserRepositorie';
 import jwt from "jsonwebtoken";
 import login from '../repositories/LoginRepositorie';
 import { Return } from '../entities/Return';
+import { authenticateJWT } from '../../authMiddleware';
 
 const SECRET_KEY = "abrakadabra";
 
@@ -37,8 +38,9 @@ userRouter.post("/login", async (req: Request, res: Response): Promise<Return> =
     // Aqui você pode implementar a lógica de autenticação
     // Verifique as credenciais e, se forem válidas, gere um token JWT
     var ret = new Return();
-    const { email, password }:ILogin = req.body;
-    if (await login(email,password)) {
+    const { email, password } = req.body;
+    console.log({ email, password })
+    if (await login(email, password)) {
         console.log(email); 
       var token = jwt.sign( '1' , SECRET_KEY);
       //console.log(token); 
@@ -74,7 +76,7 @@ userRouter.post("/login", async (req: Request, res: Response): Promise<Return> =
  *               items:
  *                 $ref: '#/components/schemas/User'
  */
-userRouter.get('/users', async ( _req:Request, res:Response): Promise<Response>=>{
+userRouter.get('/users', authenticateJWT, async ( _req:Request, res:Response): Promise<Response>=>{
     console.log('INICIANDO GET ALL');
     const users = await UserRepositorie.getUsers();
     return res.status(200).json(users);

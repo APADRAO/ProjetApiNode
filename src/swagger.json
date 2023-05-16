@@ -5,19 +5,202 @@
         "version": "1.0.0",
         "description": "Documentation for your API"
     },
-    "securityDefinitions": {
-      "BearerAuth": {
-        "type": "apiKey",
-        "name": "Authorization",
-        "in": "header"
-      }
-    },
     "servers": [
         {
             "url": "http://localhost:3333" 
         }
     ],
-    "paths": {},
-    "components": {}
+    "paths": {
+      "/api/login":{
+        "post":{
+          "summary":"Gera JWT",
+          "tags": ["Authentication"],
+          "requestBody":{
+            "description":"",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/Login"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Login"
+                }
+              },
+              "application/*+json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Login"
+                }
+              }
+            }
+          },
+          "responses":{
+            "400":{
+                "description":"Falha na autenticação"
+              },
+            "200":{
+              "description":"OK",
+              "content":{
+                "aplication/json":{
+                  "schema":{
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/users/":{
+        "get":{
+          "summary":"Get all users",
+          "tags": ["Users"],
+          "security":[{"bearerAuth":[]}],
+          "responses":{
+            "401":{
+              "description":"Unauthorized"
+            },
+            "400":{
+              "description":"Usuario ja existe."
+            },
+            "200":{
+              "description":"OK",
+              "content":{
+                "aplication/json":{
+                  "schema":{
+                    "type": "array",
+                    "items":{
+                      "$ref":"#/components/schemas/Users"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/users/by":{
+        "get":{
+          "summary":"busca por nome, email ou password",
+          "tags": ["Users"],
+          "security":[{"bearerAuth":[]}],
+          "parameters": [
+            {
+              "required":true,
+              "name": "param",
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses":{
+            "401":{
+              "description":"Unauthorized"
+            },
+            "400":{
+              "description":"Usuario ja existe."
+            },
+            "200":{
+              "description":"OK",
+              "content":{
+                "aplication/json":{
+                  "schema":{
+                    "type": "object",
+                    "$ref":"#/components/schemas/Users"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/users":{
+        "post":{
+          "summary":"Insere novo usuario",
+          "tags": ["Users"],
+          "security":[{"bearerAuth":[]}],
+          "requestBody":{
+            "description":"",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/Users"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Users"
+                }
+              },
+              "application/*+json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Users"
+                }
+              }
+            }
+          },
+          "responses":{
+            "401":{
+              "description":"Unauthorized"
+            },
+            "400":{
+              "description":"Usuario ja existe."
+            },
+            "200":{
+              "description":"OK",
+              "content":{
+                "aplication/json":{
+                  "schema":{
+                    "type": "object",
+                    "$ref":"#/components/schemas/Users"                      
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas":{
+        "Users":{
+          "type": "object",
+          "properties": {
+            "id":{
+              "type":"int64"
+            },
+            "name":{
+              "type":"string"
+            },
+            "email":{
+              "type":"string"
+            },
+            "password":{
+              "type":"string"
+            }
+          }
+        },
+        "Login":{
+          "type": "object",
+          "properties": {
+            "email":{
+              "type":"string"
+            },
+            "password":{
+              "type":"string"
+            }
+          }
+        }
+      },
+      "securitySchemes":{
+        "bearerAuth":{
+          "type":"http",
+          "scheme":"bearer",
+          "bearerFormat": "JWT"
+        }
+      }
+    }
 }
   
