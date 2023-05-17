@@ -1,4 +1,4 @@
-import { Request, Response, Router, request, response } from "express";
+import { Request, Response, Router} from "express";
 import jwt from "jsonwebtoken";
 import login from '../app/Login/repositories/LoginRepositorie';
 import { Return } from '../database/entities/Return';
