@@ -1,6 +1,6 @@
 import { Router } from "express";
-import userRouter from '../User/controllers/UserControllers';
-import loginRouter from '../Login/controllers/LoginController';
+import userRouter from '../controllers/UserControllers';
+import loginRouter from '../controllers/LoginController';
 
 const routers = Router();
 routers.use('/api',[ userRouter, loginRouter]);

@@ -1,7 +1,7 @@
 import { Request, Response, Router, request, response } from "express";
 import jwt from "jsonwebtoken";
-import login from '../repositories/LoginRepositorie';
-import { Return } from '../../../database/entities/Return';
+import login from '../app/Login/repositories/LoginRepositorie';
+import { Return } from '../database/entities/Return';
 import moment from 'moment';
 
 const SECRET_KEY = "abrakadabra";

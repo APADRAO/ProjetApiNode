@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import express from 'express';
 import cors from 'cors';
 import { AppDataSource } from './database/data-source';
-import routers from './app/routes/routes';
+import routers from './routes/routes';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJson from './swagger/swagger.json'
 

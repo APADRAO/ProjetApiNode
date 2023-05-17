@@ -1,6 +1,6 @@
 import { Request, Response, Router, request, response } from "express";
-import UserRepositorie  from '../repositories/UserRepositorie';
-import { authenticateJWT } from '../../../authMiddleware';
+import UserRepositorie  from '../app/User/repositories/UserRepositorie';
+import { authenticateJWT } from '../authMiddleware';
 
 //const SECRET_KEY = "abrakadabra";
 

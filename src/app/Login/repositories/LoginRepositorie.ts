@@ -1,5 +1,5 @@
 import { AppDataSource } from '../../../database/data-source';
-import { decryptando, encryptando } from "../../../Extensions/EncriptDecript";
+import { decryptando, encryptando } from "../../Extensions/EncriptDecript";
 import { User } from '../../../database/entities/User';
 
 const SECRET_KEY = "abrakadabra";
