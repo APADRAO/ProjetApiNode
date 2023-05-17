@@ -1,10 +1,6 @@
-import  jwt from 'jsonwebtoken';
-import { ILogin } from './../interfaces/ILogin';
-import {User} from "../entities/User";
-import { AppDataSource } from "../../database/data-source";
-import { decrypt } from "sjcl";
-import { decryptando, encryptando } from "../../Extensions/EncriptDecript";
-import { Request, Response } from "express";
+import { AppDataSource } from '../../../database/data-source';
+import { decryptando, encryptando } from "../../../Extensions/EncriptDecript";
+import { User } from '../../../database/entities/User';
 
 const SECRET_KEY = "abrakadabra";
 

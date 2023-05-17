@@ -1,7 +1,8 @@
+
 import "reflect-metadata"
 import { DataSource } from "typeorm"
 import {CreateUserTable1683899146103} from './migrations/1683899146103-CreateUserTable' 
-import {User} from "../app/entities/User"
+import {User} from "./entities/User"
 export const AppDataSource = new DataSource({
     type: "mysql",
     host: "localhost",

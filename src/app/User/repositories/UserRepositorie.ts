@@ -1,9 +1,8 @@
-import { User } from './../entities/User';
+import { User } from '../../../database/entities/User';
 //import {User} from "../entities/User";
 import { IUser } from "../interfaces/IUser";
-import { AppDataSource } from "../../database/data-source";
-import { decrypt } from "sjcl";
-import { decryptando, encryptando } from "../../Extensions/EncriptDecript";
+import { AppDataSource } from "../../../database/data-source";
+import { decryptando, encryptando } from "../../../Extensions/EncriptDecript";
 
 type UsuarioRequest = {
     
