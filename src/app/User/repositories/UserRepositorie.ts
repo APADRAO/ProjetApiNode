@@ -54,6 +54,7 @@ const getUserByParam = async (param:any): Promise<IUser|Error> =>{
         users.password = await decryptando(users.password)
         return users;
     }
+    console.log(param);
     return new Error('Registro nao encontrado');
 }
 
