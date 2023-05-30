@@ -162,20 +162,45 @@
           }
         }
       },"/api/users/recuperacao":{
-        "get":{
+        "post":{
           "summary":"Recupera usuario e senha",
           "tags": ["Users"],
           
-          "parameters": [
-            {
-              "required":true,
-              "name": "email",
-              "in": "query",
-              "schema": {
-                "type": "string"
+          "requestBody":{
+            "description":"",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type":"object",
+                  "properties": {
+                    "email":{
+                      "type":"string"
+                    }
+                  }
+                }
+              },
+              "text/json": {
+                "schema":{
+                  "type":"object",
+                  "properties": {
+                    "email":{
+                      "type":"string"
+                    }
+                  }
+                }
+              },
+              "application/*+json": {
+                "schema":{
+                  "type":"object",
+                  "properties": {
+                    "statemailus":{
+                      "type":"string"
+                    }
+                  }
+                }
               }
             }
-          ],
+          },
           "responses":{
             "401":{
               "description":"Unauthorized"

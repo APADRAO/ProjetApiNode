@@ -25,10 +25,10 @@ userRouter.get('/users/by', authenticateJWT, async (request:Request, response:Re
     return response.json(user);
 });
 
-userRouter.get('/users/recuperacao', async (request:Request, response:Response): Promise<Response>=>{
+userRouter.post('/users/recuperacao', async (request:Request, response:Response): Promise<Response>=>{
     console.log('Iniciando Get com Parametros');
 
-    const {email} = request.query
+    const {email} = request.body
     const user = await UserRepositorie.getUserByParam({email}.email)
     if(user instanceof Error){
         return response.status(400).json();
