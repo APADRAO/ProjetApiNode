@@ -33,4 +33,33 @@ loginRouter.post("/login", async (req: Request, res: Response): Promise<IRespons
     }
     return ret
 });
-export default loginRouter;
+export class token{
+  jwt:string='';
+}
+loginRouter.post('/jwtValidator', async (req: Request, res: Response): Promise<any> => {
+  const token:token = await req.body;
+  console.log("chave: ",SECRET_KEY)
+  console.log("token: ",token)
+    if (!SECRET_KEY){
+      return  res.status(401).json({error:'chave Secreta Vazia'});
+    }
+    try { 
+      if(token.jwt){
+        jwt.verify(token.jwt, SECRET_KEY)
+        ? res.json({status:true})
+        : res.json({status:false})
+        console.log('ok',res.status)
+      }else{
+        res.json({status:false})
+        console.log('else', res.status)
+      }
+      return
+
+    }catch (error){
+      res.status(500).json({error:'jwt.verify not working'})
+    }
+  
+})
+
+
+export default loginRouter; 

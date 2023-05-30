@@ -11,6 +11,48 @@
         }
     ],
     "paths": {
+      "/api/jwtValidator":{
+        "post":{
+          "summary":"Valida JWT",
+          "tags": ["Authentication"],
+          "requestBody":{
+            "description":"",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/jwt"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/jwt"
+                }
+              },
+              "application/*+json": {
+                "schema": {
+                  "$ref":"#/components/schemas/jwt"
+                }
+              }
+            }
+          },
+          "responses":{
+            "400":{
+                "description":"Falha na validacao"
+              },
+            "200":{
+              "description":"OK",
+              "content":{
+                "aplication/json":{
+                  "schema":{
+                    "type": "object",
+                      "$ref":"#/components/schemas/Retjwt"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "/api/login":{
         "post":{
           "summary":"Gera JWT",
@@ -269,6 +311,22 @@
     },
     "components": {
       "schemas":{
+        "jwt":{
+          "type": "object",
+          "properties": {
+            "jwt":{
+              "type":"string"
+            }
+          }
+        },  
+        "Retjwt":{
+          "type": "object",
+          "properties": {
+            "status":{
+              "type":"bollean"
+            }
+          }
+        }, 
         "Return":{
           "type": "object",
           "properties": {
@@ -334,5 +392,6 @@
         }
       }
     }
-}
+  }
+
   
