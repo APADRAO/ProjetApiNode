@@ -3,6 +3,7 @@ import "reflect-metadata"
 import { DataSource } from "typeorm"
 import {CreateUserTable1683899146103} from './migrations/1683899146103-CreateUserTable' 
 import {User} from "./entities/User"
+import { CreateTableTarefa1685564436292 } from "./migrations/1685564436292-createTableTarefa"
 export const AppDataSource = new DataSource({
     type: "mysql",
     host: "localhost",
@@ -13,7 +14,7 @@ export const AppDataSource = new DataSource({
     synchronize: true,
     logging: false,
     entities: [User],
-    migrations: [CreateUserTable1683899146103],
+    migrations: [CreateUserTable1683899146103, CreateTableTarefa1685564436292],
     subscribers: [],
 })
 
