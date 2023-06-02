@@ -72,6 +72,19 @@ const postUser = async ({name, email, password}: UsuarioRequest ): Promise<IUser
     
     await userRepository.save(user);
     return user;
+}  
+
+const getUserByid  = async (param:any): Promise<User> =>{
+    var users =await userRepository.findOne({
+        where:{
+            id:param
+        }
+    });
+    if(users!=null){
+        return users;
+    }
+    return new User;
 }
 
-export default { getUsers, getUserByParam, postUser };
+
+export default { getUsers, getUserByParam, postUser , getUserByid};

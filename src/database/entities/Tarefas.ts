@@ -1,8 +1,10 @@
 import { join } from 'path';
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { User } from './User';
+import UserRepositorie from '../../app/User/repositories/UserRepositorie';
 
-@Entity('tarefas')
-export class User {
+@Entity('tarefa')
+export class Tarefa {
     @PrimaryGeneratedColumn('increment')
     idTarefa:number;
 
@@ -24,10 +26,7 @@ export class User {
     @Column('int',{nullable:true})
     statusTarefa:number;
     
-    @Column('varchar', {length:4000, nullable:true})
-    password:string;
-    
-    @ManyToOne(()=>User)
+@ManyToOne(() => User,{eager:true /*, cascade:true*/} )
     @JoinColumn({name: 'idUsuario'})
     user: User;
 }

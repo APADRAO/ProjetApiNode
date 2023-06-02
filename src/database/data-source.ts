@@ -4,6 +4,7 @@ import { DataSource } from "typeorm"
 import {CreateUserTable1683899146103} from './migrations/1683899146103-CreateUserTable' 
 import {User} from "./entities/User"
 import { CreateTableTarefa1685564436292 } from "./migrations/1685564436292-createTableTarefa"
+import { Tarefa } from "./entities/Tarefas"
 export const AppDataSource = new DataSource({
     type: "mysql",
     host: "localhost",
@@ -13,7 +14,7 @@ export const AppDataSource = new DataSource({
     database: "estudante",
     synchronize: true,
     logging: false,
-    entities: [User],
+    entities: [User, Tarefa],
     migrations: [CreateUserTable1683899146103, CreateTableTarefa1685564436292],
     subscribers: [],
 })
