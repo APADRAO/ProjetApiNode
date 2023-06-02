@@ -8,7 +8,7 @@ import { ITarefa } from "../app/Tarefa/Interfaces/ITarefa";
 const tarefaRouter = Router();
 
 
-tarefaRouter.get('/tarefa',  async ( _req:Request, res:Response): Promise<Response>=>{
+tarefaRouter.get('/tarefa',  authenticateJWT, async ( _req:Request, res:Response): Promise<Response>=>{
     
     const tar = await TarefaRepositorie.getTarefas();
     console.log('INICIANDO GET ALL');
@@ -53,6 +53,16 @@ tarefaRouter.get('/tarefa/dtTarefa', authenticateJWT, async (request:Request, re
 
     const {dtStart,dtEnd} = await request.query
     const tar = await TarefaRepositorie.getTarefasByParam(null,null,null,{dtStart,dtEnd}.dtStart, {dtStart,dtEnd}.dtEnd)
+    if(tar instanceof Error){
+        return response.status(400).json();
+    }
+    return response.json(tar);
+});
+tarefaRouter.get('/tarefa/weekUsaer', authenticateJWT, async (request:Request, response:Response): Promise<Response>=>{
+    console.log('Iniciando Get com Parametros');
+
+    const {idusuario,nrsemana} = await request.query
+    const tar = await TarefaRepositorie.getTarefasByParam(null,{idusuario,nrsemana}.idusuario,null,null, null,{idusuario,nrsemana}.nrsemana)
     if(tar instanceof Error){
         return response.status(400).json();
     }

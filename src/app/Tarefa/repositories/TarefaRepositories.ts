@@ -1,8 +1,9 @@
 import { ITarefa } from '../Interfaces/ITarefa';
 import { AppDataSource } from "../../../database/data-source";
 import {Tarefa} from '../../../database/entities/Tarefas'
+import DateParser from '../../Extensions/DateFunction';
 
-
+const dateParser = new DateParser("yyyy-MM-dd");
 const tarefasRepository = AppDataSource.getRepository(Tarefa);
 
 const getTarefas= async (): Promise<Tarefa[]> =>{
@@ -13,7 +14,7 @@ const getTarefas= async (): Promise<Tarefa[]> =>{
     return [];
 } 
 
-const getTarefasByParam = async (idTarefa?:any, idUsuario?:any, nmTarefa?:any, dt1?:any, dt2?:any): Promise<Tarefa[]|Error> =>{
+const getTarefasByParam = async (idTarefa?:any, idUsuario?:any, nmTarefa?:any, dt1?:any, dt2?:any, semana?:any): Promise<Tarefa[]|Error> =>{
    
         if(idTarefa){
         return await tarefasRepository.find({
@@ -22,7 +23,7 @@ const getTarefasByParam = async (idTarefa?:any, idUsuario?:any, nmTarefa?:any, d
             }
         });
        }
-       if(idUsuario){
+       if(idUsuario&&!semana){
         return await tarefasRepository.find({
             where:{
                 idUsuario:parseInt(idUsuario)
@@ -36,26 +37,34 @@ const getTarefasByParam = async (idTarefa?:any, idUsuario?:any, nmTarefa?:any, d
             }
         });
        }
-       if(dt1&&dt2){
+       if(dt1!=null&&dt2!=null){
 console.log(`dts : ${dt1} e ${dt2}`)
-        var startDate  = parseDateString(dt1);
-        var endDate  = parseDateString(dt2);
-
-        const query = tarefasRepository
-        .createQueryBuilder('data')
-        .where('data.dtTarefa BETWEEN :startDate AND :endDate',{startDate, endDate});
-        return await query.getMany();
+        var startDate  = dateParser.parseDate(dt1);
+        var endDate  = dateParser.parseDate(dt2);
+        console.log(startDate)
+        console.log(endDate)
+        var ret = await tarefasRepository
+        .createQueryBuilder('tarefa')
+        .innerJoinAndSelect('tarefa.user', 'User')
+        .where("tarefa.dtTarefa >= :startDate", { startDate })
+        .andWhere("tarefa.dtTarefa <= :endDate", { endDate })
+        .getMany()
+        // = await (await query.getRawAndEntities()).entities.find()
+        console.log(ret)
+        return ret;
+       }
+       if(semana!=null && idUsuario!=null){
+        
+        return await tarefasRepository
+        .createQueryBuilder('tarefa')
+        .innerJoinAndSelect('tarefa.user', 'User')
+        .where("tarefa.idusuario = :idUsuario", { idUsuario })
+        .andWhere("WEEK(tarefa.dtTarefa) = :semana", { semana })
+        .getMany();
+        
        }
     return new Error('Registro nao encontrado');
 }
-function parseDateString(dateString: any): Date {
-    const dateParts = dateString.split('-'); // Supondo o formato da string como 'YYYY-MM-DD'
-    const year = parseInt(dateParts[0]);
-    const month = parseInt(dateParts[1]) - 1; // Os meses em JavaScript são baseados em zero (0 - 11)
-    const day = parseInt(dateParts[2]);
-  
-    return new Date(year, month, day);
-  }
 const postTarefa = async (pst:ITarefa): Promise<Tarefa | Error> =>{
    
     if(await tarefasRepository.findOne({ where:{ idTarefa:pst.idTarefa}})){

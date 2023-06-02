@@ -13,6 +13,7 @@ loginRouter.post("/login", async (req: Request, res: Response): Promise<IRespons
     
     var ret = new IResponseLogin();
     const { email, password } = req.body;
+    console.log(req); 
     if (await login(email, password)) {
         console.log(email); 
      var token = jwt.sign(

@@ -201,6 +201,52 @@
           }
         }
       },
+      "/api/tarefa/weekUsaer":{
+        "get":{
+          "summary":"Buscar tarefa por usuario e semana",
+          "tags": ["Tarefas"],
+          "security":[{"bearerAuth":[]}],
+          "parameters": [
+            {
+              "required":true, 
+              "name": "idusuario",
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "required":true,
+              "name": "nrsemana",
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses":{
+            "401":{
+              "description":"Unauthorized"
+            },
+            "400":{
+              "description":"Erro na consulta"
+            },
+            "200":{
+              "description":"OK",
+              "content":{
+                "aplication/json":{
+                  "schema":{
+                    "type": "array",
+                    "items":{
+                      "$ref":"#/components/schemas/Tarefa"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "/api/tarefa":{
         "post":{
           "summary":"Insere novo usuario",
