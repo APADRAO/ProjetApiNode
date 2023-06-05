@@ -66,13 +66,17 @@ console.log(`dts : ${dt1} e ${dt2}`)
     return new Error('Registro nao encontrado');
 }
 const postTarefa = async (pst:ITarefa): Promise<Tarefa | Error> =>{
+   var t = await tarefasRepository.findOne({ where:{ idTarefa:pst.idTarefa}});
    
-    if(await tarefasRepository.findOne({ where:{ idTarefa:pst.idTarefa}})){
+   
+   if(!t){
         return new Error("Categoria ja existe");
     }
     var tarefa = tarefasRepository.create(pst);
     
     await tarefasRepository.save(tarefa);
+    
+    console.log('popopopopopo',t) 
     return tarefa;
 }
 
