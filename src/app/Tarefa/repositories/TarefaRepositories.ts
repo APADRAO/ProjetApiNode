@@ -53,6 +53,15 @@ console.log(`dts : ${dt1} e ${dt2}`)
         console.log(ret)
         return ret;
        }
+       if(semana!=null && idUsuario==0){
+        console.log(semana,idUsuario)
+        return await tarefasRepository
+        .createQueryBuilder('tarefa')
+        .innerJoinAndSelect('tarefa.user', 'User')
+        .where("WEEK(tarefa.dtTarefa) = :semana", { semana })
+        .getMany();
+        
+       }
        if(semana!=null && idUsuario!=null){
         
         return await tarefasRepository
@@ -63,6 +72,7 @@ console.log(`dts : ${dt1} e ${dt2}`)
         .getMany();
         
        }
+       
     return new Error('Registro nao encontrado');
 }
 const postTarefa = async (pst:ITarefa): Promise<Tarefa | Error> =>{
