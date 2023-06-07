@@ -58,6 +58,7 @@ console.log(`dts : ${dt1} e ${dt2}`)
         return await tarefasRepository
         .createQueryBuilder('tarefa')
         .innerJoinAndSelect('tarefa.user', 'User')
+        .innerJoinAndSelect('tarefa.tipoTarefa', 'TipoTarefa')
         .where("WEEK(tarefa.dtTarefa) = :semana", { semana })
         .getMany();
         
@@ -77,11 +78,13 @@ console.log(`dts : ${dt1} e ${dt2}`)
 }
 const postTarefa = async (pst:ITarefa): Promise<Tarefa | Error> =>{
    var t = await tarefasRepository.findOne({ where:{ idTarefa:pst.idTarefa}});
+   //console.log(t)
    
-   
-   if(!t){
-        return new Error("Categoria ja existe");
-    }
+   /*if(t!=null){
+    console.log('popopopopopo',t)    
+    return new Error("Categoria ja existe");
+
+    }*/
     var tarefa = tarefasRepository.create(pst);
     
     await tarefasRepository.save(tarefa);
@@ -90,4 +93,21 @@ const postTarefa = async (pst:ITarefa): Promise<Tarefa | Error> =>{
     return tarefa;
 }
 
-export default { getTarefas, getTarefasByParam, postTarefa };
+const deleteTarefa = async (idTarefa:any): Promise<string|Error>=>{
+    try{
+        const resultado = await tarefasRepository
+        .createQueryBuilder()
+        .delete()
+        .from(Tarefa)
+        .where("idTarefa >= :idTarefa", { idTarefa })
+        .execute();
+
+        const linhasAfetadas = resultado.affected ?? 0;
+        return`Foram excluídas ${linhasAfetadas} tarefas.`;
+            
+    } catch (error) {
+        return Error(`Erros ocorreram: ${error}`)
+    }
+}
+
+export default { getTarefas, getTarefasByParam, postTarefa, deleteTarefa };

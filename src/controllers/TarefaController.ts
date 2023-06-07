@@ -72,10 +72,23 @@ tarefaRouter.post('/tarefa',  async ( request:Request, response:Response): Promi
     var tarefa:ITarefa = request.body;
    
     console.log("tarefa: ", JSON.stringify(tarefa));
-    const result = await TarefaRepositorie.postTarefa(tarefa)
+    const result = await TarefaRepositorie.postTarefa(tarefa);
+    console.log("tarefa: ", JSON.stringify(result));
     if(result instanceof Error){
+        
         return response.status(400).json();
     }
     return response.json(result);
+});
+
+tarefaRouter.delete('/tarefa/dell', authenticateJWT, async (request:Request, response:Response): Promise<Response>=>{
+    console.log('Iniciando Get com Parametros');
+
+    const {idTarefa} = await request.query
+    const tar = await TarefaRepositorie.deleteTarefa({idTarefa}.idTarefa)
+    if(tar instanceof Error){
+        return response.status(400).json();
+    }
+    return response.json(tar);
 });
 export default tarefaRouter

@@ -293,6 +293,41 @@
           }
         }
       },
+      "/api/tarefa/dell":{
+        "delete":{
+          "summary":"Deleta registro Tarefa",
+          "tags": ["Tarefas"],
+          "security":[{"bearerAuth":[]}],
+          "parameters": [
+            {
+              "required":true,
+              "name": "idTarefa",
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses":{
+            "401":{
+              "description":"Unauthorized"
+            },
+            "400":{
+              "description":"Erro na consulta"
+            },
+            "200":{
+              "description":"OK",
+              "content":{
+                "aplication/json":{
+                  "schema":{
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "/api/jwtValidator":{
         "post":{
           "summary":"Valida JWT",
@@ -590,6 +625,118 @@
             }
           }
         }
+      },
+      "/api/tpTarefa/":{
+        "get":{
+          "summary":"Get all Tipo Tarefas",
+          "tags": ["Tipo Tarefa"],
+          "security":[{"bearerAuth":[]}],
+          "responses":{
+            "401":{
+              "description":"Unauthorized"
+            },
+            "400":{
+              "description":"ja existe."
+            },
+            "200":{
+              "description":"OK",
+              "content":{
+                "aplication/json":{
+                  "schema":{
+                    "type": "array",
+                    "items":{
+                      "$ref":"#/components/schemas/TipoTarefa"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/tpTarefa/by":{
+        "get":{
+          "summary":"Get Tarefas por prametro",
+          "tags": ["Tipo Tarefa"],
+          "security":[{"bearerAuth":[]}],
+          "parameters": [
+            {
+              "required":true,
+              "name": "param",
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses":{
+            "401":{
+              "description":"Unauthorized"
+            },
+            "400":{
+              "description":"Erro."
+            },
+            "200":{
+              "description":"OK",
+              "content":{
+                "aplication/json":{
+                  "schema":{
+                    "type": "array",
+                    "items":{
+                      "$ref":"#/components/schemas/TipoTarefa"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/tpTarefa":{
+        "post":{
+          "summary":"Insere novo usuario",
+          "tags": ["Tipo Tarefa"],
+          "security":[{"bearerAuth":[]}],
+          "requestBody":{
+            "description":"",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/TipoTarefa"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/TipoTarefa"
+                }
+              },
+              "application/*+json": {
+                "schema": {
+                  "$ref":"#/components/schemas/TipoTarefa"
+                }
+              }
+            }
+          },
+          "responses":{
+            "401":{
+              "description":"Unauthorized"
+            },
+            "400":{
+              "description":"Usuario ja existe."
+            },
+            "200":{
+              "description":"OK",
+              "content":{
+                "aplication/json":{
+                  "schema":{
+                    "type": "object",
+                    "$ref":"#/components/schemas/TipoTarefa"                      
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "components": {
@@ -689,7 +836,7 @@
             },
             "statusTarefa":{
               "type":"int"
-            },
+            },            
             "Users":{
               "type": "object",
               "properties": {
@@ -706,6 +853,28 @@
                   "type":"string"
                 }
               }
+            },
+            "TipoTarefa":{
+              "type": "object",
+              "properties": {
+                "idtar":{
+                  "type":"int64"
+                },
+                "nametar":{
+                  "type":"string"
+                }
+              }
+            }
+          }
+        },
+        "TipoTarefa":{
+          "type": "object",
+          "properties": {
+            "idtar":{
+              "type":"int64"
+            },
+            "nametar":{
+              "type":"string"
             }
           }
         }

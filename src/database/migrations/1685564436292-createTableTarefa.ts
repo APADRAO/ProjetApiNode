@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm"
 
-export class CreateTableTarefa1685564436292 implements MigrationInterface {
+export class CreateTableTarefa1685564436292A implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
@@ -15,6 +15,11 @@ export class CreateTableTarefa1685564436292 implements MigrationInterface {
                     },
                     {
                         name:'idUsuario',
+                        type: 'int',
+                        isNullable:false,
+                    },
+                    {
+                        name:'idTipoTarefa',
                         type: 'int',
                         isNullable:false,
                     },
@@ -47,10 +52,16 @@ export class CreateTableTarefa1685564436292 implements MigrationInterface {
                 ],
                 foreignKeys:[
                     {
-                        name: "fk_User_Tarefa",
-                        columnNames:["idUsuario"],
+                        name: "FK_c6f32b0ab2446317e278195c894",
+                        columnNames:["id"],
                         referencedTableName:"Users",
-                        referencedColumnNames:["id"] 
+                        referencedColumnNames:["idUsuario"] 
+                    },
+                    {
+                        name: "tarefa_FK",
+                        columnNames:["idtar"],
+                        referencedTableName:"tipotarefa",
+                        referencedColumnNames:["idTipoTarefa"] 
                     }
                 ]
             })
