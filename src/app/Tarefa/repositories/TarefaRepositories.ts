@@ -14,7 +14,7 @@ const getTarefas= async (): Promise<Tarefa[]> =>{
     return [];
 } 
 
-const getTarefasByParam = async (idTarefa?:any, idUsuario?:any, nmTarefa?:any, dt1?:any, dt2?:any, semana?:any): Promise<Tarefa[]|Error> =>{
+const getTarefasByParam = async (idTarefa?:any, idUsuario?:any, nmTarefa?:any, dt1?:any, dt2?:any, semana?:any, idtipotarefa?:any): Promise<Tarefa[]|Error> =>{
    
         if(idTarefa){
         return await tarefasRepository.find({
@@ -23,7 +23,7 @@ const getTarefasByParam = async (idTarefa?:any, idUsuario?:any, nmTarefa?:any, d
             }
         });
        }
-       if(idUsuario&&!semana){
+       if(idUsuario&&!semana&&!idtipotarefa){
         return await tarefasRepository.find({
             where:{
                 idUsuario:parseInt(idUsuario)
@@ -53,8 +53,8 @@ console.log(`dts : ${dt1} e ${dt2}`)
         console.log(ret)
         return ret;
        }
-       if(semana!=null && idUsuario==0){
-        console.log(semana,idUsuario)
+       if(semana!=null && idUsuario==0 && idtipotarefa==0){
+        //console.log(semana,idUsuario)
         return await tarefasRepository
         .createQueryBuilder('tarefa')
         .innerJoinAndSelect('tarefa.user', 'User')
@@ -63,12 +63,36 @@ console.log(`dts : ${dt1} e ${dt2}`)
         .getMany();
         
        }
-       if(semana!=null && idUsuario!=null){
-        
+       if(semana!=null && idUsuario!=null && idtipotarefa==0){
+        //console.log(semana,idUsuario)
         return await tarefasRepository
         .createQueryBuilder('tarefa')
         .innerJoinAndSelect('tarefa.user', 'User')
+        .innerJoinAndSelect('tarefa.tipoTarefa', 'TipoTarefa')
+        .where("WEEK(tarefa.dtTarefa) = :semana", { semana })
+        .andWhere("tarefa.idusuario = :idUsuario", { idUsuario })
+        .getMany();
+        
+       }
+       if(semana!=null && idUsuario==0 && idtipotarefa!=null){
+        //console.log(semana,idUsuario)
+        return await tarefasRepository
+        .createQueryBuilder('tarefa')
+        .innerJoinAndSelect('tarefa.user', 'User')
+        .innerJoinAndSelect('tarefa.tipoTarefa', 'TipoTarefa')
+        .where("WEEK(tarefa.dtTarefa) = :semana", { semana })
+        .andWhere("tarefa.idtipotarefa = :idtipotarefa", { idtipotarefa })
+        .getMany();
+        
+       }
+       if(semana!=null && idUsuario!=null && idtipotarefa!=null){
+        //console.log(idtipotarefa)
+        return await tarefasRepository
+        .createQueryBuilder('tarefa')
+        .innerJoinAndSelect('tarefa.user', 'User')
+        .innerJoinAndSelect('tarefa.tipoTarefa', 'Tipotarefa')
         .where("tarefa.idusuario = :idUsuario", { idUsuario })
+        .andWhere("tarefa.idtipotarefa = :idtipotarefa", { idtipotarefa })
         .andWhere("WEEK(tarefa.dtTarefa) = :semana", { semana })
         .getMany();
         
@@ -77,8 +101,11 @@ console.log(`dts : ${dt1} e ${dt2}`)
     return new Error('Registro nao encontrado');
 }
 const postTarefa = async (pst:ITarefa): Promise<Tarefa | Error> =>{
-   var t = await tarefasRepository.findOne({ where:{ idTarefa:pst.idTarefa}});
-   //console.log(t)
+    
+   try {
+    var t = await tarefasRepository.findOne({ where:{ idTarefa:pst.idTarefa}});
+
+   console.log(t)
    
    /*if(t!=null){
     console.log('popopopopopo',t)    
@@ -91,7 +118,28 @@ const postTarefa = async (pst:ITarefa): Promise<Tarefa | Error> =>{
     
     console.log('popopopopopo',t) 
     return tarefa;
+   } catch (error:any) {
+    console.log(JSON.stringify(error.sqlMessage))
+   
+    return Error(JSON.stringify(error.sqlMessage));
+   } 
 }
+const putTarefa = async (pst:ITarefa): Promise<Tarefa | Error> =>{
+    var t = await tarefasRepository.findOne({ where:{ idTarefa:pst.idTarefa}});
+    //console.log(t)
+    
+    /*if(t!=null){
+     console.log('popopopopopo',t)    
+     return new Error("Categoria ja existe");
+ 
+     }*/
+     var tarefa = tarefasRepository.create(pst);
+     
+     await tarefasRepository.save(tarefa);
+     
+     console.log('popopopopopo',t) 
+     return tarefa;
+ }
 
 const deleteTarefa = async (idTarefa:any): Promise<string|Error>=>{
     try{

@@ -61,8 +61,9 @@ tarefaRouter.get('/tarefa/dtTarefa', authenticateJWT, async (request:Request, re
 tarefaRouter.get('/tarefa/weekUsaer', authenticateJWT, async (request:Request, response:Response): Promise<Response>=>{
     console.log('Iniciando Get com Parametros');
 
-    const {idusuario,nrsemana} = await request.query
-    const tar = await TarefaRepositorie.getTarefasByParam(null,{idusuario,nrsemana}.idusuario,null,null, null,{idusuario,nrsemana}.nrsemana)
+    const {idusuario,nrsemana, idtipoTarefa} = await request.query
+    console.log({idusuario,nrsemana, idtipoTarefa} )
+    const tar = await TarefaRepositorie.getTarefasByParam(null,{idusuario,nrsemana, idtipoTarefa}.idusuario,null,null, null,{idusuario,nrsemana, idtipoTarefa}.nrsemana,{idusuario,nrsemana, idtipoTarefa}.idtipoTarefa)
     if(tar instanceof Error){
         return response.status(400).json();
     }

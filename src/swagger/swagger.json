@@ -222,6 +222,14 @@
               "schema": {
                 "type": "string"
               }
+            },
+            {
+              "required":true,
+              "name": "idtipoTarefa",
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
             }
           ],
           "responses":{
