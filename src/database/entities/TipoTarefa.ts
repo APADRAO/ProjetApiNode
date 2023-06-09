@@ -3,7 +3,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 @Entity('tipotarefa')
 export class TipoTarefa {
     @PrimaryGeneratedColumn('increment')
-    idtar:number;
+    idTipoTarefa:number;
 
     @Column('varchar', {length:200})
     nametar:string;

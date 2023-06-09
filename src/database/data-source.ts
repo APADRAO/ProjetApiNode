@@ -1,12 +1,12 @@
 
 import "reflect-metadata"
 import { DataSource } from "typeorm"
-import {CreateUserTable1683899146103} from './migrations/1683899146103-CreateUserTable' 
 import {User} from "./entities/User"
-import { CreateTableTarefa1685564436292A } from "./migrations/1685564436292-createTableTarefa"
 import { Tarefa } from "./entities/Tarefas"
 import { TipoTarefa } from "./entities/TipoTarefa"
-import { CreateTipoTarefa1686096600182 } from "./migrations/1686096600182-CreateTipoTarefa"
+import { CreateUser1686327625593 } from "./migrations/1686327625593-CreateUser"
+import { CreateTipoTarefa1686327606726 } from "./migrations/1686327606726-CreateTipoTarefa"
+import { CreateTarefa1686327635299 } from "./migrations/1686327635299-CreateTarefa"
 export const AppDataSource = new DataSource({
     type: "mysql",
     host: "localhost",
@@ -17,7 +17,7 @@ export const AppDataSource = new DataSource({
     synchronize: true,
     logging: false,
     entities: [User, TipoTarefa, Tarefa],
-    migrations: [CreateUserTable1683899146103, CreateTipoTarefa1686096600182, CreateTableTarefa1685564436292A],
+    migrations: [CreateTipoTarefa1686327606726,CreateUser1686327625593,CreateTarefa1686327635299 ],
     subscribers: [],
 })
 

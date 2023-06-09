@@ -9,10 +9,10 @@ export class Tarefa {
     @PrimaryGeneratedColumn('increment')
     idTarefa:number;
 
-    @Column('int',{nullable:true})
+    @Column('int',{nullable:false})
     idUsuario:number;
 
-    @Column('int',{nullable:true})
+    @Column('int',{nullable:false})
     idTipoTarefa:number;
 
     @Column('varchar', {length:300, nullable:false})

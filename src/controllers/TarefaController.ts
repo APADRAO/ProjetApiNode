@@ -9,9 +9,9 @@ const tarefaRouter = Router();
 
 
 tarefaRouter.get('/tarefa',  authenticateJWT, async ( _req:Request, res:Response): Promise<Response>=>{
-    
-    const tar = await TarefaRepositorie.getTarefas();
     console.log('INICIANDO GET ALL');
+    const tar = await TarefaRepositorie.getTarefas();
+    
     if(tar){
     return res.status(200).json(tar);
     }else{
@@ -81,7 +81,18 @@ tarefaRouter.post('/tarefa',  async ( request:Request, response:Response): Promi
     }
     return response.json(result);
 });
-
+tarefaRouter.put('/tarefa/put',  async ( request:Request, response:Response): Promise<Response>=>{
+    var tarefa:ITarefa = request.body;
+   
+    console.log("tarefa: ", JSON.stringify(tarefa));
+    const result = await TarefaRepositorie.putTarefa(tarefa);
+    console.log("tarefa: ", JSON.stringify(result));
+    if(result instanceof Error){
+        
+        return response.status(400).json();
+    }
+    return response.json(result);
+});
 tarefaRouter.delete('/tarefa/dell', authenticateJWT, async (request:Request, response:Response): Promise<Response>=>{
     console.log('Iniciando Get com Parametros');
 

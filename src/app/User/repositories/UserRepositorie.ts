@@ -38,7 +38,7 @@ const getUserByParam = async (param:any): Promise<IUser|Error> =>{
     }
     var users = await userRepository.findOne({
         where:{
-            id:param
+            idUsuario:param
         }
     });
     if (users){
@@ -77,7 +77,7 @@ const postUser = async ({name, email, password}: UsuarioRequest ): Promise<IUser
 const getUserByid  = async (param:any): Promise<User> =>{
     var users =await userRepository.findOne({
         where:{
-            id:param
+            idUsuario:param
         }
     });
     if(users!=null){

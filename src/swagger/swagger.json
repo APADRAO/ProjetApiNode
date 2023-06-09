@@ -255,6 +255,52 @@
           }
         }
       },
+      "/api/tarefa/put":{
+        "put":{
+          "summary":"Altera usuario",
+          "tags": ["Tarefas"],
+          "security":[{"bearerAuth":[]}],
+          "requestBody":{
+            "description":"",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/Tarefa"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Tarefa"
+                }
+              },
+              "application/*+json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Tarefa"
+                }
+              }
+            }
+          },
+          "responses":{
+            "401":{
+              "description":"Unauthorized"
+            },
+            "400":{
+              "description":"Tarefa ja existe."
+            },
+            "200":{
+              "description":"OK",
+              "content":{
+                "aplication/json":{
+                  "schema":{
+                    "type": "object",
+                    "$ref":"#/components/schemas/Tarefa"                      
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "/api/tarefa":{
         "post":{
           "summary":"Insere novo usuario",
@@ -796,7 +842,7 @@
         "Users":{
           "type": "object",
           "properties": {
-            "id":{
+            "idUsuario":{
               "type":"int64"
             },
             "name":{
@@ -830,6 +876,9 @@
             "idUsuario":{
               "type":"int64"
             },
+            "idTipoTarefa":{
+              "type":"int64"
+            },
             "nmTarefa":{
               "type":"string"
             },
@@ -848,7 +897,7 @@
             "Users":{
               "type": "object",
               "properties": {
-                "id":{
+                "idUsuario":{
                   "type":"int64"
                 },
                 "name":{
@@ -865,7 +914,7 @@
             "TipoTarefa":{
               "type": "object",
               "properties": {
-                "idtar":{
+                "idTipoTarefa":{
                   "type":"int64"
                 },
                 "nametar":{
@@ -878,7 +927,7 @@
         "TipoTarefa":{
           "type": "object",
           "properties": {
-            "idtar":{
+            "idTipoTarefa":{
               "type":"int64"
             },
             "nametar":{

@@ -14,6 +14,6 @@ export interface ITarefa{
     user: IUser
 }
 export interface ItipoTarefa{
-    idtar:number,
+    idTipoTarefa:number,
     nametar:string,
 }

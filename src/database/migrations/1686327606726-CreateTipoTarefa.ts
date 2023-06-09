@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm"
 
-export class CreateTipoTarefa1686096600182 implements MigrationInterface {
+export class CreateTipoTarefa1686327606726 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
@@ -8,7 +8,7 @@ export class CreateTipoTarefa1686096600182 implements MigrationInterface {
                 name:'tipotarefa',
                 columns:[
                     {
-                        name:'idtar',
+                        name:'idTipoTarefa',
                         type: 'int',
                         isPrimary:true,
                         generationStrategy:'increment'

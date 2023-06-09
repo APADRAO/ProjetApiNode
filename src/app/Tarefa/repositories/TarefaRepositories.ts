@@ -2,12 +2,15 @@ import { ITarefa } from '../Interfaces/ITarefa';
 import { AppDataSource } from "../../../database/data-source";
 import {Tarefa} from '../../../database/entities/Tarefas'
 import DateParser from '../../Extensions/DateFunction';
+import { User } from '../../../database/entities/User';
 
 const dateParser = new DateParser("yyyy-MM-dd");
 const tarefasRepository = AppDataSource.getRepository(Tarefa);
+const userRepository = AppDataSource.getRepository(Tarefa);
 
 const getTarefas= async (): Promise<Tarefa[]> =>{
     var ret = await tarefasRepository.find();
+    console.log(ret);
     if(ret){
         return ret
     }
@@ -24,11 +27,14 @@ const getTarefasByParam = async (idTarefa?:any, idUsuario?:any, nmTarefa?:any, d
         });
        }
        if(idUsuario&&!semana&&!idtipotarefa){
-        return await tarefasRepository.find({
-            where:{
-                idUsuario:parseInt(idUsuario)
-            }
-        });
+        var ret = await tarefasRepository
+        .createQueryBuilder('tarefa')
+        .innerJoinAndSelect('tarefa.user', 'User')
+        .where("tarefa.idUsuario = :idUsuario", { idUsuario })
+        .getMany()
+        // = await (await query.getRawAndEntities()).entities.find()
+        console.log(ret)
+        return ret;
        }
        if(nmTarefa){
         return await tarefasRepository.find({
@@ -125,37 +131,41 @@ const postTarefa = async (pst:ITarefa): Promise<Tarefa | Error> =>{
    } 
 }
 const putTarefa = async (pst:ITarefa): Promise<Tarefa | Error> =>{
-    var t = await tarefasRepository.findOne({ where:{ idTarefa:pst.idTarefa}});
-    //console.log(t)
+    console.log('nnnnnnnnnnnnnnn',pst)
     
-    /*if(t!=null){
-     console.log('popopopopopo',t)    
-     return new Error("Categoria ja existe");
- 
-     }*/
-     var tarefa = tarefasRepository.create(pst);
+    const t = await tarefasRepository.findOne({ where:{ idTarefa:pst.idTarefa}});
+    
+    if(t!=null){
+        t.dtLembreteTarefa = pst.dtLembreteTarefa;
+        t.dtTarefa = pst.dtTarefa;
+        t.idTarefa = pst.idTarefa;
+        t.idTipoTarefa = pst.idTipoTarefa;
+        t.idUsuario = pst.idUsuario;
+        t.nmTarefa = pst.nmTarefa;
+        t.nrRecorrenciaTarefa = pst.nrRecorrenciaTarefa;
+        t.statusTarefa = pst.statusTarefa;
+        await tarefasRepository.save(t);
+        console.log('popopopopopo',t) 
+     return t;
+     }    
      
-     await tarefasRepository.save(tarefa);
-     
-     console.log('popopopopopo',t) 
-     return tarefa;
+     return new Error('Nao encontrado registro para atualização')
  }
 
 const deleteTarefa = async (idTarefa:any): Promise<string|Error>=>{
     try{
-        const resultado = await tarefasRepository
-        .createQueryBuilder()
-        .delete()
-        .from(Tarefa)
-        .where("idTarefa >= :idTarefa", { idTarefa })
-        .execute();
-
-        const linhasAfetadas = resultado.affected ?? 0;
-        return`Foram excluídas ${linhasAfetadas} tarefas.`;
-            
+        const userToRemove = await tarefasRepository.findOne({ where:{ idTarefa:idTarefa}});
+        if (userToRemove) {
+            console.log(userToRemove)
+            await tarefasRepository.remove(userToRemove);
+            return 'usuario excluido com sucesso';
+        }else {
+            return 'usuario não encontrado'
+        }            
     } catch (error) {
+        console.log('Ocorreu um erro ao excluir o usuário:', error);
         return Error(`Erros ocorreram: ${error}`)
     }
 }
 
-export default { getTarefas, getTarefasByParam, postTarefa, deleteTarefa };
+export default {putTarefa, getTarefas, getTarefasByParam, postTarefa, deleteTarefa };

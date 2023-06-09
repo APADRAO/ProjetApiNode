@@ -25,7 +25,7 @@ const getByParam = async (param:any): Promise<ItipoTarefa|Error> =>{
     }
     var tptar = await userRepository.findOne({
         where:{
-            idtar:param
+            idTipoTarefa:param
         }
     });
     if (tptar){
@@ -36,12 +36,12 @@ const getByParam = async (param:any): Promise<ItipoTarefa|Error> =>{
     return new Error('Registro nao encontrado');
 }
 
-const post = async ({nametar,idtar  }: ItipoTarefa ): Promise<ItipoTarefa | Error> =>{
+const post = async ({nametar,idTipoTarefa  }: ItipoTarefa ): Promise<ItipoTarefa | Error> =>{
    
     if(await userRepository.findOne({ where: { nametar }})){
         return new Error("Categoria ja existe");
     }
-    var tptar = userRepository.create({ nametar, idtar });
+    var tptar = userRepository.create({ nametar, idTipoTarefa });
     
     await userRepository.save(tptar);
     return tptar;

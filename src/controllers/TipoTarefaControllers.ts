@@ -25,10 +25,10 @@ tpTarefaRouter.get('/tpTarefa/by', authenticateJWT, async (request:Request, resp
 
 
 tpTarefaRouter.post('/tpTarefa', authenticateJWT, async ( request:Request, response:Response): Promise<Response>=>{
-    var {  nametar, idtar } = request.body;
+    var {  nametar, idTipoTarefa } = request.body;
    
     console.log("NOME: ", nametar);
-    const result = await TpTarefaRepositorie.post({  nametar, idtar })
+    const result = await TpTarefaRepositorie.post({  nametar, idTipoTarefa })
     if(result instanceof Error){
         return response.status(400).json();
     }

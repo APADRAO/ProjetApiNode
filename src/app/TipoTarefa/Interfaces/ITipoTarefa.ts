@@ -1,4 +1,4 @@
 export interface ITipoTarefa {
-    idtar:number,
+    idTipoTarefa:number,
     nametar:string   
 }
